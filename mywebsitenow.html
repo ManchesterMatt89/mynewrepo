@@ -3,54 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Shift Schedule</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #87CEEB; /* Light blue background */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #ffffff; /* White background for the table */
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .highlight {
+            background-color: #ffff00; /* Yellow highlight */
+        }
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                display: none;
+            }
+            tr {
+                margin-bottom: 15px;
+            }
+            td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+            }
+            td::before {
+                content: attr(data-label);
+                position: absolute;
+                left: 10px;
+                width: 50%;
+                padding-right: 10px;
+                text-align: left;
+                font-weight: bold;
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <h1 class="logo">MyWebsite</h1>
-            <nav>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
 
-    <section class="hero">
-        <div class="container">
-            <h2>Welcome to MyWebsite</h2>
-            <p>We offer the best services to help you grow your business.</p>
-            <a href="#" class="btn">Learn More</a>
-        </div>
-    </section>
+<h1>Shift Schedule for 2024</h1>
 
-    <section class="services">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="service">
-                <h3>Web Development</h3>
-                <p>We create stunning websites that boost your business.</p>
-            </div>
-            <div class="service">
-                <h3>SEO Optimization</h3>
-                <p>Improve your site's ranking with our SEO services.</p>
-            </div>
-            <div class="service">
-                <h3>Marketing</h3>
-                <p>Reach a larger audience with our marketing strategies.</p>
-            </div>
-        </div>
-    </section>
+<table>
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>Finish Time</th>
+            <th>Shift Notes</th>
+        </tr>
+    </thead>
+    <tbody id="schedule-table-body">
+        <!-- Rows will be inserted here by JavaScript -->
+    </tbody>
+</table>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 MyWebsite. All rights reserved.</p>
-        </div>
-    </footer>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const tableBody = document.getElementById('schedule-table-body');
+        const startDate = new Date('2024-01-01');
+        const currentDate = new Date().toISOString().split('T')[0]; // Current date in YYYY-MM-DD format
+
+        function formatDate(date) {
+            const dd = String(date.getDate()).padStart(2, '0');
+            const mm = String(date.getMonth() + 1).padStart(2, '0'); // January is 0!
+            const yy = String(date.getFullYear()).slice(-2);
+            return `${dd}/${mm}/${yy}`;
+        }
+
+        for (let i = 0; i < 365; i++) {
+            const date = new Date(startDate);
+            date.setDate(startDate.getDate() + i);
+            const formattedDate = formatDate(date);
+            const rowDate = date.toISOString().split('T')[0]; // Date in YYYY-MM-DD format for comparison
+
+            const row = document.createElement('tr');
+            if (rowDate === currentDate) {
+                row.classList.add('highlight');
+            }
+            row.innerHTML = `
+                <td data-label="Date">${formattedDate}</td>
+                <td data-label="Start Time"></td>
+                <td data-label="Finish Time"></td>
+                <td data-label="Shift Notes"></td>
+            `;
+            tableBody.appendChild(row);
+        }
+    });
+</script>
+
 </body>
 </html>
