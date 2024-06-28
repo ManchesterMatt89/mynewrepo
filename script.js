@@ -36,6 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (currentDateRow) {
-        currentDateRow.scrollIntoView({ behavior: "smooth", block: "start" });
+        setTimeout(() => {
+            currentDateRow.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100); // Small delay to ensure rendering is complete
     }
 });
